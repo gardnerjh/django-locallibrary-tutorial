@@ -1,0 +1,24 @@
+version: 1.0
+runtime: python3 
+build:
+  commands:
+    build:        
+      - pip install -r requirements.txt
+    post-build:
+      - python manage.py makemigrations
+      - python manage.py migrate
+      - python manage.py collectstatic
+      - python manage.py test
+      - python manage.py createsuperuser
+  env:
+    - name: DJANGO_SUPERUSER_USERNAME
+      value: "admin"
+    - name: DJANGO_SUPERUSER_PASSWORD
+      value: "Password1!"
+    - name: DJANGO_SUPERUSER_EMAIL
+      value: "gardnerjh@gmail.com"
+run:
+  runtime-version: 3.8.2
+  command: python manage.py runserver
+  network: 
+    port: 8000
